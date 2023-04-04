@@ -47,9 +47,11 @@ The **PM** is a centrality-based network measure that is restricted to ordered p
 For the **origin** nodes, the PM uses the location of the households weighted by the number of residents.\
 For **destination** nodes, several different activity spaces can be considered. They are usually weighted by the number of establishments in the node.\
 The PM metric is defined by the equation:
+
 $$
 PM_{ij}(k) = \sum_{k=1}^{i,j\epsilon G} \frac{W_i\cdot W_j}{d_{i,j}} \cdot \frac{g_{i.j}^{(k)}}{g_{i,j}}
 $$
+
 Where, $PM_{ij}(k)$ is the PM of node K, where all the nodes _i_ contain origins and all the nodes _j_ contain destinations. $W_i$ is the weight of node _i_ and $W_j$ is the weight of node _j_, $d_ij$ is the length of the shortest path between _i_ and _j_ (distance), $g_ij (k)$ is the number of shortest paths between _i_ and _j_ that pass through k, and $g_ij$ is the total number of shortest paths between _i_ and _j_.
 
 Currently in the plugin, the PM metric is calculated three times. When the PM is calculated for the entire population of the city, it is called **General Potential Movement (GPM)**, it is a reference value for what the PM could be if the entire population of the city was of the same group. When the PM is calculated for a specific population group, it is called Potential Movement of group _x_ (PMx). At the moment in the plugin there are only two population groups being considered, A and B, and their sum dos not need to equal the entire population.
@@ -58,17 +60,21 @@ Currently in the plugin, the PM metric is calculated three times. When the PM is
 **Normalized Potential Movement:**
 
 After computing the GPM and the two PM metrics (PMa and PMb), the plugin normalizes the values by the total amount of population that was considered in the metric. For the GPM that number is the total amount of the city’s population, whereas for the PMa and PMb is the total amount of that specific population group.  The equation of the normalized PM is:
+
 $$
 PMNorm(i) = \frac{PM_{ij}(k)}{\sum W_{i}}
 $$
+
 Where, $PMNorm(i)$ is the normalized value of PM for the group _i_, $PM_{ij}(k)$ is the PM value of node_k_ for that population's PM, and $W_i$ is the sum of all the weight values of population _i_.
 
 **Potential Movement Difference:**
 
 PMD is the value of the difference between the population's group PM and the GPM. It indicates how different the PM values of that population are when compared to what they might be if the entire population of the city belonged to that population's group. The PMD metric is:
+
 $$
 PMD_{(K)}^S = PM_{(k)}^S - GPM_{(k)}
 $$
+
 Where, $PMD_{(K)}^S$ is the PMD of node _k_ for the population group S, $PM_{(k)}^S$ is the PM of node _k_ for the population group S, and $GPM_{(k)}$ is the GPM value of node _k_.
 
 ### 2.2 The PMD Index Plugin

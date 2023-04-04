@@ -85,7 +85,7 @@ Once the input vector layer is selected, the user must define the analysis type,
 After these definitions, the user must select the field columns from the input vector layer attribute table for the impedance, the destinations, the origin of the entire population, the origin of population group A, and the origin of population group B. The impedance is an optional field, if the user does not select any the algorithm considers the value as 1. The impedance is a value that multiplies the distance in the calculations. It is used to increase or decrease the distance.\
 Finally, the user must inform the output vector layer. Currently, the option for saving in a temporary layer is not working.
 
-:::image type="content" source="1.png" alt-text="Plugin":::
+![This is an image](https://github.com/anamaffini/PMD-Index/blob/main/1.png)
 
 After the calculations are done, the plugin will return a new LineString vector layer with the same field columns from the input layer plus the new ones that are generated. The input vector layer is not altered.
 

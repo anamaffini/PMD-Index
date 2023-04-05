@@ -30,11 +30,10 @@ __copyright__ = '(C) 2023 by Ana Maffini'
 
 __revision__ = '$Format:%H$'
 
-import os
 import sys
-from qgis import processing
-from PyQt5 import QtGui
 from decimal import Decimal
+from qgis import processing
+import os
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtCore import QCoreApplication, QVariant
 from qgis.core import (NULL, QgsProcessing, QgsProcessingAlgorithm, QgsProject, QgsVectorFileWriter, QgsDistanceArea, QgsField, 
@@ -129,22 +128,18 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
                 allowMultiple = False,
                 optional = False))    
 
-        # We add a feature sink in which to store our processed features (this
-        # usually takes the form of a newly created vector layer when the algorithm is run in QGIS).
         self.addParameter(                 
             QgsProcessingParameterFeatureSink(
                 self.OUTPUT_VECTOR_LAYER,
                 self.tr('Output Vector Layer with Results'),
                 type=QgsProcessing.TypeVectorAnyGeometry,
-                createByDefault=True,
+                createByDefault=False,
                 supportsAppend=True,
                 defaultValue=None))  
 
     def processAlgorithm(self, parameters, context, feedback):                  
-        # Retrieve the feature source and sink. The 'dest_id' variable is used to uniquely identify the feature sink, 
-        # and must be included in the dictionary returned by the processAlgorithm function.
         source = self.parameterAsSource(parameters, self.INPUT_VECTOR_LAYER, context)
-        
+
         # Input Parameters
         inputEdges = self.parameterAsVectorLayer(parameters, self.INPUT_VECTOR_LAYER, context)
         metricsL = [0,1,2,3,4, 5, 6, 7]
@@ -167,7 +162,6 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
                 self.geom = feat.geometry()
                 self.length = QgsDistanceArea().measureLength(feat.geometry()) if analysisType == 1 else 1
                 
-                # metrics
                 if 0 in metricsL: self.gpm = 0
                 if 1 in metricsL: self.pma = 0   
                 if 2 in metricsL: self.pmb = 0            
@@ -213,11 +207,9 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
                             edgesA[-1].neighA.append([edgesA[i], dist])
                             edgesA[i].neighA.append([edgesA[-1], dist])
 
-        #compute shortest paths (djikstra algorithm with binary heap as priority queue)
+        #compute shortest paths (dijkstra algorithm with binary heap as priority queue)
         #step 1: heap creation
         for source in edgesA:
-            if feedback.isCanceled():
-                break
             if source.id % 50 == 0: feedback.pushInfo(f'Shortest Paths Edge {source.id}')
             finitePos = 0
             costA = [99999999999999 for i in range(edgesCount)]
@@ -225,8 +217,6 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
             for ind in range(len(source.neighA)): costA[source.neighA[ind][0].id] = source.neighA[ind][1]
             heap = [edgesA[0] for i in range(len(source.neighA) + 1)]
             for destin in edgesA:
-                if feedback.isCanceled():
-                    break
                 if costA[destin.id] == 99999999999999:
                     heap.append(destin)
                     destin.heapPos = len(heap) - 1
@@ -241,15 +231,13 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
                         heap[n], heap[parent] = heap[parent], heap[n]
                         n = parent
                         parent = int((n-1)/2)              
-        #step 2 heapsort
+    #step 2 heapsort
             pivotA = [[] for i in range(edgesCount)] #array of pivot edges in shortest paths
             level = [99999999999999 for i in range(edgesCount)]
             sortedA = []
             numSP = [0 for i in range(edgesCount)]
             numSP[source.id], level[source.id] = 1,0
             for ind in range(len(source.neighA)):
-                if feedback.isCanceled():
-                    break
                 numSP[source.neighA[ind][0].id] = 1
                 level[source.neighA[ind][0].id] = 1
             while heap != []:
@@ -295,8 +283,6 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
                     else: sc = -1
                     
                 for ind in range(len(closest.neighA)):
-                    if feedback.isCanceled():
-                        break
                     if closest.neighA[ind][0].heapPos < len(heap):
                         cost = costA[closest.id] + closest.neighA[ind][1]
                         prevCost = costA[closest.neighA[ind][0].id]
@@ -345,8 +331,6 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
                 tensionB = source.destination * farest.originB
                                                      
                 for neigh in pivotA[farest.id]:
-                    if feedback.isCanceled():
-                        break
                     if numSP[farest.id] > 0 and (radius == 0.0 or cost <= radius):
                         if 0 in metricsL: gpmTemp[neigh.id] += (numSP[neigh.id]/numSP[farest.id])*((tensionG/(level[farest.id]+1))+gpmTemp[farest.id])
                         if 1 in metricsL: pmaTemp[neigh.id] += (numSP[neigh.id]/numSP[farest.id])*((tensionA/(level[farest.id]+1))+pmaTemp[farest.id])
@@ -425,8 +409,6 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
             pmdbIndex = inputEdges.fields().indexFromName(strBegin + "PMDb")        
             
         for edge in edgesA:
-            if feedback.isCanceled():
-                break
             metricsD = {}
             if 0 in metricsL: metricsD[gpmIndex] = edge.gpm
             if 1 in metricsL: metricsD[pmaIndex] = edge.pma  
@@ -457,9 +439,31 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
             if 7 in metricsL: metricsOut.append(pmdbIndex)                    
             inputEdges.dataProvider().deleteAttributes(metricsOut)
             inputEdges.updateFields()
+            # Return the results of the algorithm
+            return {self.OUTPUT_VECTOR_LAYER: outPath}
+            
+        else:
+            crs = QgsProject.instance().crs()                            
+            save_options = QgsVectorFileWriter.SaveVectorOptions()
+            save_options.driverName = "ESRI Shapefile"
+            save_options.fileEncoding = "System"
+            context = QgsProject.instance().transformContext()  
+            QgsVectorFileWriter.writeAsVectorFormat(inputEdges, "memory:", "System", crs, "ESRI Shapefile")
+            metricsOut = []
+            if 0 in metricsL: metricsOut.append(gpmIndex)
+            if 1 in metricsL: metricsOut.append(pmaIndex)   
+            if 2 in metricsL: metricsOut.append(pmbIndex)  
+            if 3 in metricsL: metricsOut.append(gpmNormIndex)  
+            if 4 in metricsL: metricsOut.append(pmaNormIndex)   
+            if 5 in metricsL: metricsOut.append(pmbNormIndex)   
+            if 6 in metricsL: metricsOut.append(pmdaIndex)   
+            if 7 in metricsL: metricsOut.append(pmdbIndex)                    
+            inputEdges.dataProvider().deleteAttributes(metricsOut)
+            inputEdges.updateFields()
+            # Return the results of the algorithm
+            return {self.OUTPUT_VECTOR_LAYER: "memory:"}
 
-        # Return the results of the algorithm
-        return {self.OUTPUT_VECTOR_LAYER: outPath}
+        
 
     def name(self):
         """

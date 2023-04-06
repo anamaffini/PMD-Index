@@ -26,7 +26,7 @@ hasProcessingProvider = yes
 tags = network analysis, spatial analysis, vector, numeric attribute visualisation, movement
 
 homepage=https://github.com/anamaffini/PMD-Index
-category = Vector
+category = Analysis
 icon = icon.png
 experimental = False
 deprecated = False

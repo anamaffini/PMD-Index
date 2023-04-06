@@ -3,14 +3,14 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=PMD Index
-qgisMinimumVersion=3.0
-description=This plugin calculates the Potential Movement Difference Index.
-version=1.0
-author=Ana Luisa Maffini
-email=analuisamaffini@gmail.com
+name = PMD Index
+qgisMinimumVersion = 3.0
+description = This plugin calculates the Potential Movement Difference Index. 
+version = 0.1
+author = Ana Luisa Maffini, Gustavo Maciel Gonçalves
+email = analuisamaffini@gmail.com
 
-about=This plugin calculates the Potential Movement Difference Index.
+about = PMD Index is a set of urban network metrics that consider urban space as a network graph for its calculation. Potential Movement is the frequency with which streets in the urban street network belong to the shortest paths of a population when heading to urban facilities, which can be taken as an indicator of population flows. The PMD Index considers origins and destinations to estimate potential movements. It also uses weights according to the size (or attractiveness) of destination locations and the size of origin locations (number of people or households).
 
 tracker=https://github.com/anamaffini/PMD-Index/issues
 repository=https://github.com/anamaffini/PMD-Index
@@ -18,18 +18,18 @@ repository=https://github.com/anamaffini/PMD-Index
 
 # Recommended items:
 
-hasProcessingProvider=yes
+hasProcessingProvider = yes
 # Uncomment the following line and add your changelog:
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags = network analysis, spatial analysis, vector, numeric attribute visualisation, movement
 
 homepage=https://github.com/anamaffini/PMD-Index
-category=Analysis
-icon=icon.png
-experimental=False
-deprecated=False
+category = Vector
+icon = icon.png
+experimental = False
+deprecated = False
 
 # Since QGIS 3.8, a comma separated list of plugins to be installed
 # (or upgraded) can be specified.
@@ -37,8 +37,8 @@ deprecated=False
 # plugin_dependencies=
 
 Category of the plugin: Raster, Vector, Database or Web
-# category=
+# category = Vector
 
 # If the plugin can run on QGIS Server.
-server=False
+server = False
 

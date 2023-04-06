@@ -6,7 +6,7 @@
 name = PMD Index
 qgisMinimumVersion = 3.0
 description = This plugin calculates the Potential Movement Difference Index. 
-version = 0.1
+version = 1.0
 author = Ana Luisa Maffini, Gustavo Maciel Gonçalves
 email = analuisamaffini@gmail.com
 

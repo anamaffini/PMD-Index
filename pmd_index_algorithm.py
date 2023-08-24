@@ -64,7 +64,7 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.ANALYSIS,
                 self.tr('Analysis Type'),
-                ['Topological Distance', 'Geometric Distance'],
+                ['Topological Distance', 'Metric Distance'],
                 defaultValue=[0]))            
         
         self.addParameter(

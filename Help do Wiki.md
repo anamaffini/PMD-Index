@@ -1,6 +1,6 @@
 # Potential Movement Difference Index
 
-The PMD Index plugin performs a set of metrics based on graph theory which depict properties of urban networks. The metrics were conceived in the context of the** Urban Systems Research Group** from the **Federal University of Rio Grande do Sul (UFRGS)**, Brazil, by researchers **Gustavo Maciel Gonçalves** and **Ana Luisa Maffini** and programmed by Ana Luisa Maffini.
+The PMD Index plugin performs a set of metrics based on graph theory which depict properties of urban networks. The metrics were conceived in the context of the [**Urban Systems Research Group**](https://www.ufrgs.br/sistemas-urbanos/en/) from the **Federal University of Rio Grande do Sul (UFRGS)**, Brazil, by researchers **Gustavo Maciel Gonçalves** and **Ana Luisa Maffini** and programmed by Ana Luisa Maffini.
 
 The measures are based on the Polarity model, first proposed by Krafta (1996) and the plugin was based on GAUS – Graph Analysis or Urban Systems.
 

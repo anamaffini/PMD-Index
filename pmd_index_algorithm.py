@@ -477,22 +477,16 @@ class PMDIndexAlgorithm(QgsProcessingAlgorithm):
         """
         return self.tr(
             """
-            PMD Index is a set of urban network metrics that consider urban space as a network graph for its calculation.
-            Potential Movement (PM) is defined as the frequency with which streets in the urban street network belong to the shortest paths of a population when heading to urban facilities, which can be taken as an indicator of population flows.
-            The PMD Index considers origins and destinations to estimate potential movements.
-            It also uses weights according to the size (or attractiveness) of destination locations and the size of origin locations (number of people or households).
-            
-            
-            Input Vector Layer: shapefile containing the geometry of the lines which compose the network.
-            Analysis Type: how the distance between lines is computed. In the topological analysis, the distance between each pair of connected lines is equal to 1. In the geometric analysis, the distance is equal to the geodetic distance between them.
-            Analysis Radius: Zero means that all lines will be considered for the computation of the metrics for all other lines. A value higher than zero means that only the lines within the defined radius will be considered for the computation of the metrics of each line.
-            Rule for Connecting the Lines: definition of how the connection between lines will be computed.
-            Impedance: field of the selected input shapefile containing the value of the impedance of each line.
-            Destinations: field of the selected input shapefile containing the value of the destinations of each line.
-            Origin Of Entire Population: field of the selected input shapefile containing the value of the origins for the entire population of each line.
-            Origin of Population Group A: field of the selected input shapefile containing the value of the origins for the population of group A of each line.
-            Origin of Population Group B: field of the selected input shapefile containing the value of the origins for the population of group B of each line.
-            Output Vector Layer: a copy of the existing shapefile will be created containing the results.
+            Input Vector Layer: LineString shapefile of the network. For metric calculations the CRS must be a projected CRS.
+            Analysis Type: How the distance between lines is computed. In the topological analysis, the distance between each pair of connected lines is 1. In the metric analysis, the Euclidean distances between the centroids of adjacent lines are considered.
+            Analysis Radius: Zero means that all lines will be considered for the computation. A value higher than zero means that only the lines within the defined radius will be considered for the computation.
+            Rule for Connecting the Lines: Definition of how the connection between lines will be computed.
+            Impedance: Field of the selected input shapefile containing the impedance values of each line.
+            Destinations: Field of the selected input shapefile containing the destinations values of each line.
+            Origin Of Entire Population: Field of the selected input shapefile containing the origins value for the entire population of each line.
+            Origin of Population Group A: Field of the selected input shapefile containing the origins value for the population of group A of each line.
+            Origin of Population Group B: Field of the selected input shapefile containing the origins value for the population of group B of each line.
+            Output Vector Layer: A new shapefile will be created containing the results.
             """)
     
     def tr(self, string):

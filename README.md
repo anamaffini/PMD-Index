@@ -3,6 +3,8 @@
 **PMD Index** is a plugin for calculating a set of urban network metrics in QGIS that was developed by [Ana Luisa Maffini](https://github.com/anamaffini) and [Gustavo Maciel Gonçalves](https://github.com/gustavo-m-goncalves) in the [Urban Systems Research Group](https://www.ufrgs.br/sistemas-urbanos/en/) at the Federal University of Rio Grande do Sul (UFRGS) in Brazil.\
 The PMD metrics are based on a refined network betweenness centrality model named Polarity, which was conceived by professor [Romulo Krafta](https://www.researchgate.net/profile/Romulo-Krafta).
 
+Potential Movement
+-------
 **Potential Movement** is the frequency with which streets in the urban street network belong to the shortest paths of a population when heading to urban facilities, which can be taken as an indicator of population flows.
 
 The PMD Index plugin considers origins and destinations locations to estimate potential movements. It also uses weights according to the size (i.e.: attractiveness, magnitude) of destination locations and the size of origin locations (i.e.: number of people or households). 

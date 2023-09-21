@@ -11,7 +11,7 @@ The PMD Index plugin considers origins and destinations locations to estimate po
 
 The plugin is written in Python, and it's algorithm was developed by [Ana Luisa Maffini](https://github.com/anamaffini) at Chalmers University during her time as a visitor PhD researcher, and it is based on the script GAUS, developed by [Guilherme Dalcin](https://www.researchgate.net/profile/Guilherme-Dalcin) in the [Urban Systems Research Group](https://www.ufrgs.br/sistemas-urbanos/en/).
 
-Check out PMD Index documentation [here]().
+Check out PMD Index documentation [here](https://github.com/anamaffini/PMD-Index/wiki).
 
 **Contact:**\
 Ana Luisa Maffini: analuisamaffini@gmail.com / analuisamaffini@ufrgs.br\
